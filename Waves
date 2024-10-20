@@ -1,0 +1,30 @@
+import numpy as np
+import matplotlib.pyplot as plt
+import time
+
+# Simulating the time data (in seconds) for the measurements
+time_steps = np.linspace(0, 60, 500)  # 60 seconds of data, 500 samples
+
+# Simulating the vertical displacement (wave height) data in meters
+# In reality, this would come from an accelerometer or sensor mounted on a buoy
+wave_heights = np.sin(0.5 * time_steps) + np.random.normal(0, 0.2, len(time_steps))
+
+# Calculate the peak-to-trough wave height (wave amplitude)
+peak_wave_heights = []
+for i in range(1, len(wave_heights)-1):
+    if wave_heights[i] > wave_heights[i-1] and wave_heights[i] > wave_heights[i+1]:
+        # Peak found
+        peak_wave_heights.append(wave_heights[i])
+
+# Estimate average wave height
+average_wave_height = np.mean(peak_wave_heights)
+
+# Plotting the wave height over time
+plt.plot(time_steps, wave_heights, label="Wave height")
+plt.xlabel("Time (s)")
+plt.ylabel("Wave Height (meters)")
+plt.title("Wave Height Over Time")
+plt.legend()
+plt.show()
+
+print(f"Estimated Average Wave Height: {average_wave_height:.2f} meters")
